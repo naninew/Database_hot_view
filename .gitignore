@@ -1,0 +1,4 @@
+.nicegui/
+venv/
+ProtectedData.py
+__pycache__/
