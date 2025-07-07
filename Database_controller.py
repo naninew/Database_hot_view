@@ -98,8 +98,19 @@ def MonthlyRevenue(StartTime="CURRENT_DATE", EndTime="CURRENT_DATE"):
         EndTime = "'" + EndTime + "'"
     rows = RunQuery(
         """
-SELECT
-"""
+SELECT sc.name, time,SUM(ptotal),sc.id
+FROM (
+SELECT TO_CHAR(op.updated_at,'YYYY-MM') as time,SUM(quantity)*sp.price as ptotal,category_id
+FROM store_product AS sp
+LEFT JOIN orders_orderproduct AS op ON sp.id=op.product_id
+WHERE op.updated_at>={} AND op.updated_at<={}
+GROUP BY product_id,time,sp.price,category_id) AS tempt
+JOIN store_category AS sc ON tempt.category_id=sc.id
+GROUP BY sc.id,time
+ORDER BY time ASC
+""".format(
+            StartTime, EndTime
+        )
     )
     # rows = (
     #     ("2025-1", 34000000),
@@ -109,9 +120,61 @@ SELECT
     #     ("2025-5", 36056000),
     #     ("2025-6", 47000000),
     # )
-    DataX = [i[0] for i in rows]
-    DataY = [i[1] for i in rows]
-    return DataX, DataY
+    print(rows)
+    Data = {
+        "name": "",
+        "data": [],
+        "type": "line",
+        "stack": "Total",
+        "areaStyle": {},
+        "emphasis": {"focus": "series"},
+        # "smooth": "true",
+    }
+    DataX = []
+    Series = []
+    Index = {}
+    for i in rows:
+        if i[3] not in Index:
+            Index[i[3]] = [i[0], dict()]
+        Index[i[3]][1][i[1]] = i[2]
+        if i[1] not in DataX:
+            DataX.append(i[1])
+    print(DataX)
+    print(Index)
+    for i in Index:
+        Y = Data.copy()
+        Y["name"] = Index[i][0]
+        Y["data"] = list()
+        for j in DataX:
+            Y["data"].append(Index[i][1].get(j, 0))
+        Series.append(Y.copy())
+
+    # for i in rows:
+    #     # i = list(i)
+    #     # i[2] = float(i[2])
+    #     if i[1] not in DataX:
+    #         DataX.append(i[1])
+    #     if i[3] not in Index:
+    #         Index[i[3]] = len(Series)
+    #         Y = Data.copy()
+    #         Y["data"] = list()
+    #         Y["name"] = i[0]
+    #         for j in DataX[:-1]:
+    #             if j != i[1]:
+    #                 Y["data"].append(0)
+    #         Y["data"].append(i[2])
+    #         Series.append(Y.copy())
+    #     else:
+    #         index = Index[i[3]]
+    #         for j in DataX[:-1]:
+    #             if j != i[1]:
+    #                 Series[index]["data"].append(0)
+    #         Series[index]["data"].append(i[2])
+    # print(Series)
+    # for i in Series:
+    #     if len(i["data"]) < len(DataX):
+    #         i["data"] += [0] * (len(DataX) - len(i["data"]))
+    return DataX, Series
 
 
 def StockOfProduct():

@@ -22,7 +22,7 @@ def PieChart():
                 {
                     "name": "Access From",
                     "type": "pie",
-                    "radius": "80%",
+                    "radius": "70%",
                     "data": [
                         {"value": 1048, "name": "Search Engine"},
                         {"value": 735, "name": "Direct"},
@@ -40,7 +40,30 @@ def PieChart():
                 }
             ],
             "textStyle": {"fontFamily": "consolas"},
-            "toolbox": {"feature": {"saveAsImage": {}}},
+            "toolbox": {
+                "feature": {
+                    "dataZoom": {"yAxisIndex": "none"},
+                    "restore": {},
+                    "saveAsImage": {},
+                }
+            },
+            "axisPointer": {"link": [{"xAxisIndex": "all"}]},
+            "dataZoom": [
+                {
+                    "show": "true",
+                    "realtime": "true",
+                    "start": 0,
+                    "end": 100,
+                    "xAxisIndex": [0, 1],
+                },
+                {
+                    "type": "inside",
+                    "realtime": "true",
+                    "start": 0,
+                    "end": 100,
+                    "xAxisIndex": [0, 1],
+                },
+            ],
         }
     )
 
@@ -146,7 +169,30 @@ def TimeChart():
                 "bottom": "3%",
                 "containLabel": "true",
             },
-            "toolbox": {"feature": {"saveAsImage": {}}},
+            "toolbox": {
+                "feature": {
+                    "dataZoom": {"yAxisIndex": "none"},
+                    "restore": {},
+                    "saveAsImage": {},
+                }
+            },
+            "axisPointer": {"link": [{"xAxisIndex": "all"}]},
+            "dataZoom": [
+                {
+                    "show": "true",
+                    "realtime": "true",
+                    "start": 0,
+                    "end": 100,
+                    "xAxisIndex": [0, 1],
+                },
+                {
+                    "type": "inside",
+                    "realtime": "true",
+                    "start": 0,
+                    "end": 100,
+                    "xAxisIndex": [0, 1],
+                },
+            ],
         }
     )
 
@@ -206,6 +252,29 @@ def BarChart():
                 },
             ],
             "textStyle": {"fontFamily": "consolas"},
-            "toolbox": {"feature": {"saveAsImage": {}}},
+            "toolbox": {
+                "feature": {
+                    "dataZoom": {"yAxisIndex": "none"},
+                    "restore": {},
+                    "saveAsImage": {},
+                }
+            },
+            "axisPointer": {"link": [{"xAxisIndex": "all"}]},
+            "dataZoom": [
+                {
+                    "show": "true",
+                    "realtime": "true",
+                    "start": 0,
+                    "end": 1,
+                    "xAxisIndex": [0, 1],
+                },
+                {
+                    "type": "inside",
+                    "realtime": "true",
+                    "start": 0,
+                    "end": 1,
+                    "xAxisIndex": [0, 1],
+                },
+            ],
         }
     )
